@@ -2,8 +2,8 @@ const { expect } = require('@jest/globals');
 const { test } = require('picomatch');
 const Engineer = require('../lib/Engineer');
 
-test('accepts prompts from engineer questions', () => {
-    const engineer = new Engineer(engineerQuestions.engineerName);
+test('accepts prompts from Engineer questions', () => {
+    const engineer = new Engineer(engineerQuestions);
 
     expect(engineer.name).toBe(engineerQuestions.engineerName);
     expect(engineer.id).toBe(engineerQuestions.engineerId);

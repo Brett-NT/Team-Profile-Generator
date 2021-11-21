@@ -3,7 +3,7 @@ const { test } = require('picomatch');
 const Intern = require('../lib/Intern');
 
 test('accepts prompts from Intern questions', () => {
-    const intern = new Intern(internQuestions.internName);
+    const intern = new Intern(internQuestions);
 
     expect(intern.name).toBe(internQuestions.internName);
     expect(intern.id).toBe(internQuestions.internId);

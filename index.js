@@ -1,8 +1,5 @@
 const inquirer = require('inquirer');
-// const Manager = require('./lib/Manager');
-// const Engineer = require('./lib/Engineer');
-// const Intern = require('./lib/Intern');
-// const Employee = require('.lib/Employee');
+const { writeFile, copyFile } = require('./utils/generate')
 
 const myTeam = [];
 
@@ -66,32 +63,49 @@ const managerQuestions = () => {
         myTeam.push(managerInputs);
         console.log(myTeam);
         return employeeQuestions();
-    })
+    });
 };
 
 const employeeQuestions = () => {
     return inquirer.prompt([
         {
-            type: 'confirm',
-            name: 'addEngineer',
-            message: 'Would you like to add an engineer to your team',
-            default: false
-        },
-        {
-            type: 'confirm',
-            name: 'addIntern',
-            message: 'Would you like to add an intern to your team?',
-            default: false,
-            when: ({ addEngineer }) => !addEngineer
-        },
-        {
-            type: 'confirm',
-            name: 'completeTeam',
-            message: 'Are you finished adding team members to your team?',
-            default: true,
-            when: ({ addIntern }) => !addIntern
+            type: 'checkbox',
+            name: 'addTeam',
+            message: 'Please select an option.',
+            choices: ['Add an Engineer', 'Add an Intern', 'Complete your team']
         }
-    ]);
+        // {
+        //     type: 'confirm',
+        //     name: 'addEngineer',
+        //     message: 'Would you like to add an engineer to your team',
+        //     default: false
+        // },
+        // {
+        //     type: 'confirm',
+        //     name: 'addIntern',
+        //     message: 'Would you like to add an intern to your team?',
+        //     default: false,
+        //     when: ({ addEngineer }) => !addEngineer
+        // },
+        // {
+        //     type: 'confirm',
+        //     name: 'completeTeam',
+        //     message: 'Are you finished adding team members to your team?',
+        //     default: true,
+        //     when: ({ addIntern }) => !addIntern
+        // }
+    ])
+    .then(employeeInputs => {
+        if(employeeInputs.addTeam == 'Add an Engineer') {
+            return engineerQuestions();
+        }
+        else if(employeeInputs.addTeam == 'Add an Intern') {
+            return internQuestions();
+        }
+        else if(employeeInputs.addTeam == 'Complete your team') {
+
+        }
+    });
 };
 
 // Prompts to enter Engineer information
@@ -149,7 +163,11 @@ const engineerQuestions = () => {
                 }
             }
         }
-    ]);
+    ])
+    .then(engineerInputs => {
+        myTeam.push(engineerInputs);
+        return employeeQuestions();
+    });
 }
 
 //Prompts to enter intern information
@@ -207,34 +225,33 @@ const internQuestions = () => {
                 }
             }
         }
-    ]);
+    ])
+    .then(internInputs => {
+        myTeam.push(internInputs);
+        return employeeQuestions();
+    });
 }
 
 //initiate questions
 function init() {
     managerQuestions()
-    .then(managerInputs => {
-        const Manager = new Manager (managerInputs.name, managerInputs.id, managerInputs.email, managerInputs.office);
-        console.log(Manager);
-        myTeam.push(Manager);
+    .then(employeeQuestions)
+    .then(teamData => {
+        return generateTeam(teamData);
     })
-    .then(employeeQuestions);
-    if(employeeQuestions.addEngineer == true) {
-        engineerQuestions()
-        .then(engineerInputs => {
-            const Engineer = new Engineer (engineerInputs.name, engineerInputs.id, engineerInputs.email, engineerInputs.githubName);
-            console.log(Engineer);
-            myTeam.push(Engineer);
-        });
-    };
-    if(employeeQuestions.addIntern == true) {
-        internQuestions()
-        .then(internInputs => {
-            const Intern = new Intern (internInputs.name, internInputs.id, internInputs.email, internInputs.githubName);
-            console.log(Intern);
-            myTeam.push(Intern);
-        });
-    }
+    .then(teamHTML => {
+        return writeFile(teamHTML);
+    })
+    .then(writeFileResponse => {
+        console.log(writeFileResponse);
+        return copyFile();
+    })
+    .then(copyFileResponse => {
+        console.log(copyFileResponse);
+    })
+    .catch(err => {
+        console.log(err);
+    });
 
 }
 

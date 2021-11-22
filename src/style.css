@@ -2,10 +2,32 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+
 }
 header {
     background-color: red;
     color: white;
     font-size: 50px;
     text-align: center;
+}
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.employee-card {
+    margin: 30px;
+    padding: 10px;
+    text-align: center;
+}
+.card-header {
+background-color: red;
+}
+.employee-name, .employee-title {
+    color: white;
+    background-color: red;
+}
+.card-body {
+    background-color: gray;
 }

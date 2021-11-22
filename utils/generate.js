@@ -1,16 +1,7 @@
-const generateHTML = pageHTML => {
-    if (!pageHTML) {
-        return '';
-    }
-
-    return `
-    `
-}
-
 const fs = require('fs');
 
 // writing files
-const writeHTML = fileContent => {
+const writeFile = fileContent => {
   return new Promise((resolve, reject) => {
     fs.writeFile('./dist/index.html', fileContent, err => {
       if (err) {
@@ -27,7 +18,7 @@ const writeHTML = fileContent => {
 };
 
 // copying file
-const copyCSS = () => {
+const copyFile = () => {
   return new Promise((resolve, reject) => {
     fs.copyFile('./src/style.css', './dist/style.css', err => {
       if (err) {
@@ -43,4 +34,4 @@ const copyCSS = () => {
   });
 };
 
-module.exports = { writeHTML, copyCSS };
+module.exports = { writeFile, copyFile };

@@ -1,5 +1,5 @@
-// const { expect } = require('@jest/globals');
-// const { test } = require('picomatch');
+const { expect } = require('@jest/globals');
+const { test } = require('picomatch');
 const Manager = require('../lib/Manager');
 
 test('accepts prompts from Manager questions', () => {

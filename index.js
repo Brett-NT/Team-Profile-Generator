@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
-const { writeFile, copyFile } = require('./utils/generate')
+const generateTeam = require('./src/template');
+const { writeFile, copyFile } = require('./utils/generate');
 
 const myTeam = [];
 
@@ -74,26 +75,6 @@ const employeeQuestions = () => {
             message: 'Please select an option.',
             choices: ['Add an Engineer', 'Add an Intern', 'Complete your team']
         }
-        // {
-        //     type: 'confirm',
-        //     name: 'addEngineer',
-        //     message: 'Would you like to add an engineer to your team',
-        //     default: false
-        // },
-        // {
-        //     type: 'confirm',
-        //     name: 'addIntern',
-        //     message: 'Would you like to add an intern to your team?',
-        //     default: false,
-        //     when: ({ addEngineer }) => !addEngineer
-        // },
-        // {
-        //     type: 'confirm',
-        //     name: 'completeTeam',
-        //     message: 'Are you finished adding team members to your team?',
-        //     default: true,
-        //     when: ({ addIntern }) => !addIntern
-        // }
     ])
     .then(employeeInputs => {
         if(employeeInputs.addTeam == 'Add an Engineer') {
@@ -103,7 +84,7 @@ const employeeQuestions = () => {
             return internQuestions();
         }
         else if(employeeInputs.addTeam == 'Complete your team') {
-
+            
         }
     });
 };
@@ -235,7 +216,6 @@ const internQuestions = () => {
 //initiate questions
 function init() {
     managerQuestions()
-    .then(employeeQuestions)
     .then(teamData => {
         return generateTeam(teamData);
     })
@@ -252,7 +232,6 @@ function init() {
     .catch(err => {
         console.log(err);
     });
-
 }
 
 init();
